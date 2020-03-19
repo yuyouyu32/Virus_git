@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>疫情地图</title>
+     <script src="../static/js/echarts.min.js"></script>
+  <script src="../static/js/china.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/anhui.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/aomen.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/beijing.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/chongqing.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/fujian.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/gansu.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/guangdong.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/guangxi.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/guizhou.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/hainan.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/hebei.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/heilongjiang.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/henan.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/hubei.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/hunan.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/jiangsu.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/jiangxi.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/jilin.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/liaoning.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/neimenggu.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/ningxia.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/qinghai.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/shandong.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/shanghai.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/shanxi.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/shanxi1.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/sichuan.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/taiwan.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/tianjin.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/xianggang.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/xinjiang.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/xizang.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/yunnan.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/zhejiang.js"></script>
+  <link href="../static/css/test.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header">
+        <h1>疫情地图</h1>
+    </div>
+    <div id="mainpart">
+        <!--echarts显示-->
+        <div id="mapparts" class="partstyle">
+            <h2>全国</h2>
+            <form action="/returnindex/" method="post" class="form1">
+                {% csrf_token %}
+                <button type="submit" class="buttonstyle1">返回主页</button>
+            </form>
+            <div id="mymap"></div>
+        </div>
+        <script type="text/javascript">
+            var jsonobj;
+
+            //duiying
+            var duiying = [{
+                    name: '北京',
+                    value: "北京"
+                },
+                {
+                    name: '天津',
+                    value: "天津"
+                },
+                {
+                    name: '上海',
+                    value: "上海"
+                },
+                {
+                    name: '重庆',
+                    value: "重庆"
+                },
+                {
+                    name: '河北',
+                    value: "河北"
+                },
+                {
+                    name: '河南',
+                    value: "河南"
+                },
+                {
+                    name: '云南',
+                    value: "云南"
+                },
+                {
+                    name: '辽宁',
+                    value: "辽宁"
+                },
+                {
+                    name: '黑龙江',
+                    value: "黑龙江"
+                },
+                {
+                    name: '湖南',
+                    value: "湖南"
+                },
+                {
+                    name: '安徽',
+                    value: "安徽"
+                },
+                {
+                    name: '山东',
+                    value: "山东"
+                },
+                {
+                    name: '新疆',
+                    value: "新疆"
+                },
+                {
+                    name: '江苏',
+                    value: "江苏"
+                },
+                {
+                    name: '浙江',
+                    value: "浙江"
+                },
+                {
+                    name: '江西',
+                    value: "江西"
+                },
+                {
+                    name: '湖北',
+                    value: "湖北"
+                },
+                {
+                    name: '广西',
+                    value: "广西"
+                },
+                {
+                    name: '甘肃',
+                    value: "甘肃"
+                },
+                {
+                    name: '山西',
+                    value: "山西"
+                },
+                {
+                    name: '内蒙古',
+                    value: "内蒙古"
+                },
+                {
+                    name: '陕西',
+                    value: "陕西"
+                },
+                {
+                    name: '吉林',
+                    value: "吉林"
+                },
+                {
+                    name: '福建',
+                    value: "福建"
+                },
+                {
+                    name: '贵州',
+                    value: "贵州"
+                },
+                {
+                    name: '广东',
+                    value: "广东"
+                },
+                {
+                    name: '青海',
+                    value: "青海"
+                },
+                {
+                    name: '西藏',
+                    value: "西藏"
+                },
+                {
+                    name: '四川',
+                    value: "四川"
+                },
+                {
+                    name: '宁夏',
+                    value: "宁夏"
+                },
+                {
+                    name: '海南',
+                    value: "海南"
+                },
+                {
+                    name: '台湾',
+                    value: "台湾"
+                },
+                {
+                    name: '香港',
+                    value: "香港"
+                },
+                {
+                    name: '澳门',
+                    value: "澳门"
+                }
+            ];
+            var list = JSON.parse('{{ list|safe }}');
+            var dataList = list ;
+            var tishi = JSON.parse('{{ tishi|safe }}');
+            var color = JSON.parse('{{ color|safe }}')
+            var myChart = echarts.init(document.getElementById("mymap"));
+
+            function randomValue() {
+                return Math.round(Math.random() * 1000);
+            }
+
+            option = {
+                tooltip: {
+                    formatter: function (params, ticket, callback) {
+                        return params.seriesName + '<br />' + params.name + '：' + params.value
+                    } //数据格式化
+                },
+                visualMap: {
+                    min: 0,
+                    max: 1,
+                    left: 'left',
+                    top: 'bottom',
+                    text: [tishi+'高', tishi+'低'], //取值范围的文字
+                    inRange: {
+                        color: ['#e0ffff', color] //取值范围的颜色
+                    },
+                    show: true //图注
+                },
+                geo: {
+                    map: 'china',
+                    roam: false, //不开启缩放和平移
+                    zoom: 1.23, //视角缩放比例
+                    label: {
+                        normal: {
+                            show: true,
+                            fontSize: '10',
+                            color: 'rgba(0,0,0,0.7)'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            borderColor: 'rgba(0, 0, 0, 0.2)'
+                        },
+                        emphasis: {
+                            areaColor: '#FFCC29', //鼠标选择区域颜色
+                            shadowOffsetX: 0,
+                            shadowOffsetY: 0,
+                            shadowBlur: 20,
+                            borderWidth: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                },
+                series: [{
+                    name: tishi,
+                    type: 'map',
+                    geoIndex: 0,
+                    data: dataList
+                }],
+                tooltip: {
+                    show: true,
+                },
+                toolbox: {
+                    show: true,
+                    showTitle: false,
+                    feature: {
+                        myTool1: {
+                            show: true,
+                            title: '返回全国地图',
+                            icon: 'path://M432.45,595.444c0,2.177-4.661,6.82-11.305,6.82c-6.475,0-11.306-4.567-11.306-6.82s4.852-6.812,11.306-6.812C427.841,588.632,432.452,593.191,432.45,595.444L432.45,595.444z M421.155,589.876c-3.009,0-5.448,2.495-5.448,5.572s2.439,5.572,5.448,5.572c3.01,0,5.449-2.495,5.449-5.572C426.604,592.371,424.165,589.876,421.155,589.876L421.155,589.876z M421.146,591.891c-1.916,0-3.47,1.589-3.47,3.549c0,1.959,1.554,3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,421.146,591.891L421.146,591.891zM421.146,591.891',
+                            onclick: function () {
+                                option.geo.map = "china";
+                                myChart.setOption(option);
+                            }
+                        }
+                    }
+                }
+            };
+            myChart.setOption(option);
+            myChart.on('click', function (params) {
+                alert(params.name + tishi+": " + params.value);
+                myChart = echarts.init(document.getElementById("mymap"));
+                for (var i = 0; i < duiying.length; i++) {
+                    if (params.name == duiying[i].name) {
+                        option.geo.map = duiying[i].value;
+                        // option.series[0].data=duiying[i].datachoice;
+                    }
+                }
+                myChart.setOption(option);
+            });
+        </script>
+
+    </div>
+
+</body>

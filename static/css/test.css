@@ -1,0 +1,113 @@
+body {
+    background-image: url("../img/bg.jfif");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-attachment: fixed;
+}
+#mymap {
+    width: 1000px;
+    height: 750px;
+    border: 1px solid #ddd;
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    top:10px
+}
+
+#hubeizhemap {
+    width: 1000px;
+    height: 750px;
+    border: 1px solid #ddd;
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    top:10px
+}
+
+#header {
+    width: 100%;
+    /*background-color: rgb(78, 78, 78);*/
+    position: relative;
+    padding: 5px;
+    right: 20px;
+    bottom: 20px;
+    color: aliceblue;
+}
+
+h1 {
+    text-indent: 2em;
+    font-size: 45px
+}
+
+div {
+    margin: 0 auto;
+}
+
+#mainpart {
+    width: 1100px;
+    background-color: white;
+    padding: 10px;
+    margin: 10px auto;
+    position: relative;
+    bottom: 30px;
+
+}
+
+.partstyle {
+    padding: 10px;
+    border: 5px solid grey;
+    border-radius: 25px;
+}
+
+table {
+    margin: auto;
+    font-size: 25px;
+    border-spacing: 30px 5px;
+}
+
+h2 {
+    font-size: 35px
+}
+.form1{
+    position:relative;
+    left:999px;
+}
+
+.buttonstyle{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    font-size:15px;
+    border-radius: 4px;
+    padding:5px;
+}
+.wordstyle{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    font-size:15px;
+    border-radius: 4px;
+    padding:5px;
+}
+select{
+    width:120px;
+    height:35px;
+    font-size:15px;
+}
+.buttonstyle1{
+    background-color: #f31505;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size:15px;
+    border-radius: 4px;
+    padding:5px;
+}
+button{
+    background-color: rgb(77, 86, 201);
+    border: none;
+    color: white;
+    text-align: center;
+    font-size:15px;
+    border-radius: 4px;
+    padding:5px;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>疫情地图</title>
+   <script src="../static/js/echarts.min.js"></script>
+    <link href="../static/css/test.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header">
+        <h1>疫情地图</h1>
+    </div>
+    <div id="mainpart">
+        <!--echarts显示-->
+        <div id="hubeipart" class="partstyle">
+            <h2>数据折线图展示</h2>
+            <form action="/returnindex/" method="post" class="form1">
+                {% csrf_token %}
+                <button type="submit" class="buttonstyle1">返回主页</button>
+            </form>
+            <div id="hubeizhemap"></div>
+            <script>
+                var list_time = JSON.parse('{{ list_time|safe }}');
+                var list_shuzhi = JSON.parse('{{ list_shuzhi|safe }}');
+                var tishi1 = JSON.parse('{{ tishi1|safe }}');
+                var tishi2 = JSON.parse('{{ tishi2|safe }}');
+                var option2 = {
+                    title: {
+                        text: tishi1
+                    },
+                    tooltip: {
+                        formatter: function (params, ticket, callback) {
+                            return params.seriesName + '<br />' + params.name + '：' + params.value
+                        } //数据格式化
+                    },
+                    xAxis: {
+                        name: "日期",
+                        type: 'category',
+                        data: list_time
+                    },
+                    yAxis: {
+                        name: "人数",
+                        type: 'value'
+                    },
+                    series: [{
+                        name: tishi2,
+                        data: list_shuzhi,
+                        type: 'line',
+                        smooth: true
+                    }]
+                };
+                var myChart2 = echarts.init(document.getElementById("hubeizhemap"));
+                myChart2.setOption(option2);
+            </script>
+        </div>
+
+
+        
+
+    </div>
+
+</body>

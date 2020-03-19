@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>疫情谣言</title>
+  <link href="/static/css/news.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="header">
+    <h1>疫情谣言</h1>
+  </div>
+
+  <div id="mainpart">
+    <!--显示谣言-->
+    <div id="news" class="partstyle">
+      <h2>谣言</h2>
+     <form action="/returnindex/" method="post" class="form1">
+                {% csrf_token %}
+                <button type="submit" class="buttonstyle1">返回主页</button>
+      </form>
+     <form action="/rumorschoose/" method="post">
+      {% csrf_token %}
+        <label class="wordstyle">谣言类型：</label>
+        <select id="choose" name="choose">
+             <option>谣言</option>
+            <option>未证实信息</option>
+            <option>可信信息</option>
+        </select>
+        <button type="submit" class="buttonstyle">确定</button>
+      </form>
+      <ul id="newslist">
+         <h3 id="rumortype">{{ temp0 }}</h3>
+         {% for item in table0 %}
+              <div id="rumorheader"><li>{{ item.title }}</li></div>
+             <div id="rumorsum"><li>{{ item.mainSummary }}</li></div>
+             <div id="rumorcontent"><li>{{ item.body}}</li></div>
+          {% endfor %}
+         <h4 id="rumortype">{{ temp1 }}</h4>
+         {% for item in table1 %}
+              <div id="rumorheader"><li>{{ item.title }}</li></div>
+             <div id="rumorsum"><li>{{ item.mainSummary }}</li></div>
+             <div id="rumorcontent"><li>{{ item.body}}</li></div>
+          {% endfor %}
+         <h5 id="rumortype">{{ temp2 }}</h5>
+         {% for item in table2 %}
+              <div id="rumorheader"><li>{{ item.title }}</li></div>
+             <div id="rumorsum"><li>{{ item.mainSummary }}</li></div>
+             <div id="rumorcontent"><li>{{ item.body}}</li></div>
+          {% endfor %}
+      </ul>
+    </div>
+
+
+
+  </div>
+
+</body>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>疫情新闻</title>
+  <link href="../static/css/news.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="header">
+    <h1>疫情新闻</h1>
+  </div>
+  <div id="mainpart">
+    <!--显示新闻-->
+    <div id="news" class="partstyle">
+      <h2>全国新闻</h2>
+    <form action="/returnindex/" method="post" class="form1">
+                {% csrf_token %}
+                <button type="submit" class="buttonstyle1">返回主页</button>
+    </form>
+
+      <form action="/newschoose/" method="post">
+      {% csrf_token %}
+        <label class="wordstyle">新闻范围：</label>
+        <select id="choose" name="choose">
+             {% for item in temp %}
+                    <option >{{ item }}
+                    </option>
+             {% endfor %}
+        </select>
+        <button type="submit" class="buttonstyle">查找新闻</button>
+      </form>
+
+      <ul id="newslist">
+          {% for item in news_all %}
+         <li>
+          <div>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.summary }}</p>
+              <p>地点：{{ item.provinceName }}</p>
+            <a href={{ item.sourceUrl }}>{{ item.infoSource }}  : {{ item.sourceUrl }}</a>
+          </div>
+        </li>
+          {% endfor %}
+      </ul>
+    </div>
+
+
+
+
+  </div>
+
+</body>

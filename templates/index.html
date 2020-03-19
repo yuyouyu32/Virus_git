@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>疫情地图</title>
+  <script src="../static/js/echarts.min.js"></script>
+  <script src="../static/js/china.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/anhui.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/aomen.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/beijing.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/chongqing.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/fujian.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/gansu.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/guangdong.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/guangxi.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/guizhou.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/hainan.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/hebei.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/heilongjiang.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/henan.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/hubei.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/hunan.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/jiangsu.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/jiangxi.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/jilin.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/liaoning.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/neimenggu.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/ningxia.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/qinghai.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/shandong.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/shanghai.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/shanxi.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/shanxi1.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/sichuan.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/taiwan.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/tianjin.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/xianggang.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/xinjiang.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/xizang.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/yunnan.js"></script>
+  <script src="../static/js/map/incubator-echarts-master/province/zhejiang.js"></script>
+  <link href="../static/css/test.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="header">
+    <h1>疫情地图</h1>
+  </div>
+  <div id="mainpart">
+    <!--echarts显示-->
+    <div id="mapparts" class="partstyle">
+      <h2>全国</h2>
+      <table>
+        <tr>
+          <td style="color:rgba(255, 46, 88, 0.63)">现有确诊</td>
+          <td style="color:rgba(192, 180, 6, 0.795)">现有疑似</td>
+          <td style="color:red">现有重症</td>
+        </tr>
+        <tr>
+          <td id="currentconfirmed" style="color:rgba(255, 46, 88, 0.63)">{{ result.currentCofirmedCount }}</td>
+          <td id="suspectedcount" style="color:rgba(192, 180, 6, 0.795)">{{ result.suspectedCount }}</td>
+          <td id="seriouscount" style="color:red">{{ result.seriousCount }}</td>
+        </tr>
+        <tr>
+          <td style="color:rgb(236, 68, 68)">累计确诊</td>
+          <td style="color:green">累计治愈</td>
+          <td style="color:grey">累计死亡</td>
+        </tr>
+        <tr>
+          <td id="confirmedcount" style="color:rgb(236, 68, 68)">{{ result.confirmedCount }}</td>
+          <td id="curedcount" style="color:green">{{ result.curedCount }}</td>
+          <td id="deadcount" style="color:grey">{{ result.deadCount }}</td>
+        </tr>
+      </table>
+        <hr>
+        <hr>
+        <form action="/mapchoose/" method="post">
+            {% csrf_token %}
+            <label class="wordstyle">查看其他数据</label>
+            <select id="choose" name="choose">
+              <option>治愈率</option>
+              <option>死亡率</option>
+            </select>
+            <button type="submit" class="buttonstyle">查看其他地图数据</button>
+        </form>
+      <div id="mymap"></div>
+    </div>
+
+    <hr>
+
+    <div id="hubeipart" class="partstyle">
+      <h2>湖北省情况</h2>
+        <form action="/hubeichoose/" method="post">
+            {% csrf_token %}
+            <label class="wordstyle">查看其他地区近况图</label>
+            <select id="choose" name="choose">
+              <option>全国感染人数</option>
+              <option>武汉感染人数</option>
+                <option>全国治愈人数</option>
+              <option>武汉治愈人数</option>
+                <option>湖北治愈人数</option>
+            </select>
+            <button type="submit" class="buttonstyle">查看</button>
+      </form>
+      <div id="hubeizhemap"></div>
+      <script>
+          var list_time = JSON.parse('{{ list_time|safe }}');
+          var list_shuzhi = JSON.parse('{{ list_shuzhi|safe }}');
+        var option2 = {
+          title: {
+            text: "湖北省近期感染情况"
+          },
+          tooltip: {
+            formatter: function (params, ticket, callback) {
+              return params.seriesName + '<br />' + params.name + '：' + params.value
+            } //数据格式化
+          },
+          xAxis: {
+            name: "日期",
+            type: 'category',
+            data: list_time
+          },
+          yAxis: {
+            name: "人数",
+            type: 'value'
+          },
+          series: [{
+            name: "感染人数",
+            data: list_shuzhi,
+            type: 'line',
+            smooth: true
+          }]
+        };
+        var myChart2 = echarts.init(document.getElementById("hubeizhemap"));
+        myChart2.setOption(option2);
+
+      </script>
+    </div>
+
+    <hr>
+
+    <!--显示新闻-->
+    <div id="news" class="partstyle">
+      <h2>新闻</h2>
+      <ol id="newslist" type='1'>
+        {% for item in list_news %}
+                <li><a href={{ item.sourceUrl }}>{{ item.title }}</a><a style="color:rgb(123,123,123)">   {{ item.time }}</a></li>
+        {% endfor %}
+      </ol>
+      <form action="/news/" method="get">
+          <button type="submit">更多新闻</button>
+      </form>
+    </div>
+
+    <hr>
+
+    <!--显示谣言-->
+    <div id="rumors" class="partstyle">
+      <h2>谣言</h2>
+      <ol id="rumorslist" type='1'>
+         {% for item in list_rumors %}
+             <li><a>{{ item.title }}</a><a style="color:rgba(67,155,20,0.8)">{{ item.maninSummary }}</a><a style="color:rgb(255,5,10)">   {{ item.rumorType }}</a></li>
+        {% endfor %}
+      </ol>
+      <form action="/rumors/" method="get">
+          <button type="submit">更多谣言</button>
+      </form>
+      <script type="text/javascript">
+
+
+
+        //duiying
+        var duiying = [{
+            name: '北京',
+            value: "北京"
+          },
+          {
+            name: '天津',
+            value: "天津"
+          },
+          {
+            name: '上海',
+            value: "上海"
+          },
+          {
+            name: '重庆',
+            value: "重庆"
+          },
+          {
+            name: '河北',
+            value: "河北"
+          },
+          {
+            name: '河南',
+            value: "河南"
+          },
+          {
+            name: '云南',
+            value: "云南"
+          },
+          {
+            name: '辽宁',
+            value: "辽宁"
+          },
+          {
+            name: '黑龙江',
+            value: "黑龙江"
+          },
+          {
+            name: '湖南',
+            value: "湖南"
+          },
+          {
+            name: '安徽',
+            value: "安徽"
+          },
+          {
+            name: '山东',
+            value: "山东"
+          },
+          {
+            name: '新疆',
+            value: "新疆"
+          },
+          {
+            name: '江苏',
+            value: "江苏"
+          },
+          {
+            name: '浙江',
+            value: "浙江"
+          },
+          {
+            name: '江西',
+            value: "江西"
+          },
+          {
+            name: '湖北',
+            value: "湖北"
+          },
+          {
+            name: '广西',
+            value: "广西"
+          },
+          {
+            name: '甘肃',
+            value: "甘肃"
+          },
+          {
+            name: '山西',
+            value: "山西"
+          },
+          {
+            name: '内蒙古',
+            value: "内蒙古"
+          },
+          {
+            name: '陕西',
+            value: "陕西"
+          },
+          {
+            name: '吉林',
+            value: "吉林"
+          },
+          {
+            name: '福建',
+            value: "福建"
+          },
+          {
+            name: '贵州',
+            value: "贵州"
+          },
+          {
+            name: '广东',
+            value: "广东"
+          },
+          {
+            name: '青海',
+            value: "青海"
+          },
+          {
+            name: '西藏',
+            value: "西藏"
+          },
+          {
+            name: '四川',
+            value: "四川"
+          },
+          {
+            name: '宁夏',
+            value: "宁夏"
+          },
+          {
+            name: '海南',
+            value: "海南"
+          },
+          {
+            name: '台湾',
+            value: "台湾"
+          },
+          {
+            name: '香港',
+            value: "香港"
+          },
+          {
+            name: '澳门',
+            value: "澳门"
+          }
+        ];
+        var list = JSON.parse('{{ list|safe }}');
+        var dataList = list ;
+
+        var myChart = echarts.init(document.getElementById("mymap"));
+
+
+
+        option = {
+          tooltip: {
+            formatter: function (params, ticket, callback) {
+              return params.seriesName + '<br />' + params.name + '：' + params.value
+            } //数据格式化
+          },
+          visualMap: {
+            min: 0,
+            max: 1500,
+            left: 'left',
+            top: 'bottom',
+            text: ['感染人数多', '感染人数少'], //取值范围的文字
+            inRange: {
+              color: ['#e0ffff', '#ff0000'] //取值范围的颜色
+            },
+            show: true //图注
+          },
+          geo: {
+            map: 'china',
+            roam: false, //不开启缩放和平移
+            zoom: 1.23, //视角缩放比例
+            label: {
+              normal: {
+                show: true,
+                fontSize: '10',
+                color: 'rgba(0,0,0,0.7)'
+              }
+            },
+            itemStyle: {
+              normal: {
+                borderColor: 'rgba(0, 0, 0, 0.2)'
+              },
+              emphasis: {
+                areaColor: '#FFCC29', //鼠标选择区域颜色
+                shadowOffsetX: 0,
+                shadowOffsetY: 0,
+                shadowBlur: 20,
+                borderWidth: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          },
+          series: [{
+            name: '感染人数',
+            type: 'map',
+            geoIndex: 0,
+            data: dataList
+          }],
+          tooltip: {
+            show: true,
+          },
+          toolbox: {
+            show: true,
+            showTitle: false,
+            feature: {
+              myTool1: {
+                show: true,
+                title: '返回全国地图',
+                icon: 'path://M432.45,595.444c0,2.177-4.661,6.82-11.305,6.82c-6.475,0-11.306-4.567-11.306-6.82s4.852-6.812,11.306-6.812C427.841,588.632,432.452,593.191,432.45,595.444L432.45,595.444z M421.155,589.876c-3.009,0-5.448,2.495-5.448,5.572s2.439,5.572,5.448,5.572c3.01,0,5.449-2.495,5.449-5.572C426.604,592.371,424.165,589.876,421.155,589.876L421.155,589.876z M421.146,591.891c-1.916,0-3.47,1.589-3.47,3.549c0,1.959,1.554,3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,421.146,591.891L421.146,591.891zM421.146,591.891',
+                onclick: function () {
+                  option.geo.map = "china";
+                  myChart.setOption(option);
+                }
+              }
+            }
+          }
+        };
+        myChart.setOption(option);
+        myChart.on('click', function (params) {
+          alert(params.name + "感染人数: " + params.value);
+          myChart = echarts.init(document.getElementById("mymap"));
+          for (var i = 0; i < duiying.length; i++) {
+            if (params.name == duiying[i].name) {
+              option.geo.map = duiying[i].value;
+              // option.series[0].data=duiying[i].datachoice;
+            }
+          }
+          myChart.setOption(option);
+        });
+      </script>
+
+    </div>
+  </div>
+</body>
